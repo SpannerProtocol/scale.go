@@ -1,5 +1,4 @@
 {
-  "<T as Config<I>>::Hash": "Hash",
   "limits::BlockWeights": "BlockWeights",
   "limits::BlockLength": "BlockLength",
   "AssetId": "u32",

@@ -30,6 +30,8 @@ func ConvertType(name string, option ...interface{}) string {
 		name = "Compact<Moment>"
 	case "<T as Config<I>>::Proposal":
 		name = "Proposal"
+	case "<T as Config<I>>::Hash":
+		name = "Hash"
 	case "wasm::PrefabWasmModule":
 		name = "PrefabWasmModule"
 	}
