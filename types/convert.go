@@ -12,7 +12,7 @@ func ConvertType(name string, option ...interface{}) string {
 	name = strings.ReplaceAll(name, "T::", "")
 	name = strings.ReplaceAll(name, "VecDeque<", "Vec<")
 	name = strings.ReplaceAll(name, "<T>", "")
-	name = strings.ReplaceAll(name, "<T as Trait>::", "")
+	name = strings.ReplaceAll(name, "<T as Config>::", "")
 	name = strings.ReplaceAll(name, "<T, I>", "")
 	name = strings.ReplaceAll(name, "\n", " ")
 	switch name {
@@ -28,7 +28,7 @@ func ConvertType(name string, option ...interface{}) string {
 		name = "Compact<BlockNumber>"
 	case "<Moment as HasCompact>::Type":
 		name = "Compact<Moment>"
-	case "<T as Trait<I>>::Proposal":
+	case "<T as Config<I>>::Proposal":
 		name = "Proposal"
 	case "wasm::PrefabWasmModule":
 		name = "PrefabWasmModule"

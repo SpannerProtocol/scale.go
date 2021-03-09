@@ -35,6 +35,7 @@ func (e *EventsDecoder) Process() {
 	for i := 0; i < elementCount; i++ {
 		element := er.Process()
 		element["event_idx"] = i
+		fmt.Println(element)
 		result = append(result, element)
 	}
 	e.Value = result

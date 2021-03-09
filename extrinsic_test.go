@@ -8,6 +8,7 @@ import (
 	"github.com/itering/scale.go/types"
 	"github.com/itering/scale.go/utiles"
 	"io/ioutil"
+	"strings"
 	"testing"
 )
 
@@ -66,6 +67,33 @@ func TestCanvasExtrinsicDecoder(t *testing.T) {
 	e := scalecodec.ExtrinsicDecoder{}
 	option := types.ScaleDecoderOption{Metadata: &m.Metadata}
 	extrinsicRaw := "0x490284c4429847f3598f40008d0cbab53476a2f19165696aa41002778524b3ecf829380154ca18b59609a122e873e24e4170af4d80daa8185d614f0808a901a2044fae73aea6f9bd93142561dba80ec88af41a251d6728d6dd5b811d8a598e48cdb5a78175020c000802121c70882742309b5b86b88a425abd8b93dd8a0c30a20b0b0ffefb9308fca14a00021bdbf410c096a5f3"
+	e.Init(types.ScaleBytes{Data: utiles.HexToBytes(extrinsicRaw)}, &option)
+	e.Process()
+	fmt.Println(utiles.ToString(e.Value))
+}
+
+func TestSpannerExtrinsicDecoder(t *testing.T) {
+	m := scalecodec.MetadataDecoder{}
+	m.Init(utiles.HexToBytes(SpannerMeta))
+	_ = m.Process()
+	c, err := ioutil.ReadFile(fmt.Sprintf("%s.json", "network/spanner"))
+	if err != nil {
+		panic(err)
+	}
+	//for _, t := range m.CodecTypes {
+	//	fmt.Println(t)
+	//}
+	for call_idx, call_name := range m.Metadata.CallIndex {
+		a := fmt.Sprintf("call id = %s | %s | %s", call_idx, call_name.Call.Name, call_name.Module.Name)
+		fmt.Println(a)
+	}
+	types.RegCustomTypes(source.LoadTypeRegistry(c))
+	if unknown := m.CheckRegistry(); len(unknown) > 0 {
+		fmt.Println(strings.Join(unknown, ", "))
+	}
+	e := scalecodec.ExtrinsicDecoder{}
+	option := types.ScaleDecoderOption{Metadata: &m.Metadata}
+	extrinsicRaw := "0xf101840090b5ab205c6974c9ea841be688864633dc9ca8a357843eeacf2314649965fe2201203fbf3a7f2190de5f99d661bd54017736b93981a5610f9418dc552bb03daf2adbd27aade737a4f8ad3d35054330159d005f51b8690b7905667f1cc4dc8fef8d56030c0023071c686f6c79636f7701000000000ae803000000"
 	e.Init(types.ScaleBytes{Data: utiles.HexToBytes(extrinsicRaw)}, &option)
 	e.Process()
 	fmt.Println(utiles.ToString(e.Value))

@@ -115,7 +115,8 @@ func (e *ExtrinsicDecoder) Process() {
 
 		if e.ContainsTransaction {
 
-			address := e.ProcessAndUpdateData("Address")
+			//address := e.ProcessAndUpdateData("Address")
+			address := e.ProcessAndUpdateData("MultiAddress")
 			switch v := address.(type) {
 			case string:
 				e.Address = v
